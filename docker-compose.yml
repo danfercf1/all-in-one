@@ -1,0 +1,16 @@
+version: "3"
+services:
+  portainer:
+    image: portainer/portainer:latest
+    container_name: portainer
+    env_file:
+      - /opt/secrets/secrets.env
+    command: --admin-password ${PORTAINER_PASSWORD}
+    restart: on-failure
+    labels:
+      portainer: "Portainer, docker manager"
+    ports:
+      - "9000:9000"
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
+       - /var/local/portainer:/data
