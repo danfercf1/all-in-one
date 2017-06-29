@@ -12,6 +12,24 @@ services:
        - /var/local/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
        - /var/local/nginx/share/html:/usr/share/nginx/html
 
+  pure-ftp:
+    image: danfercf/pure-ftp-user:latest
+    container_name: pure-ftp
+    restart: on-failure
+    labels:
+      pure-ftp: "FTP, server"
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - /home/ftpusers/:/home/ftpusers/
+      - /var/local/pure-ftp/passwd:/etc/pure-ftpd/passwd
+      - /var/local/pure-ftp/logs:/var/log/messages
+    environment:
+      PUBLICHOST:
+      ADDED_FLAGS:
+    network_mode: host
+
   portainer:
     image: portainer/portainer:latest
     container_name: portainer
